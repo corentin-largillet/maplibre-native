@@ -42,9 +42,10 @@ class LatLng : Parcelable {
         set(
             @FloatRange(from = GeometryConstants.MIN_LATITUDE, to = GeometryConstants.MAX_LATITUDE) latitude
         ) {
-            require(!latitude.isNaN()) { "latitude must not be NaN" }
-            require(abs(latitude) <= GeometryConstants.MAX_LATITUDE) { "latitude must be between -90 and 90" }
-            field = latitude
+            val usedLatitude = if (latitude.isNaN()) 0.0 else latitude
+            require(!usedLatitude.isNaN()) { "latitude must not be NaN" }
+            require(abs(usedLatitude) <= GeometryConstants.MAX_LATITUDE) { "latitude must be between -90 and 90" }
+            field = usedLatitude
         }
 
     /**
@@ -72,9 +73,10 @@ class LatLng : Parcelable {
          * @see GeometryConstants.MAX_LONGITUDE
          */
         set(@FloatRange(from = GeometryConstants.MIN_LONGITUDE, to = GeometryConstants.MAX_LONGITUDE) longitude) {
-            require(!longitude.isNaN()) { "longitude must not be NaN" }
-            require(!longitude.isInfinite()) { "longitude must not be infinite" }
-            field = longitude
+            val usedLongitude = if (longitude.isNaN()) 0.0 else longitude
+            require(!usedLongitude.isNaN()) { "longitude must not be NaN" }
+            require(!usedLongitude.isInfinite()) { "longitude must not be infinite" }
+            field = usedLongitude
         }
 
     /**
